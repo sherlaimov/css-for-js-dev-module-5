@@ -8,36 +8,45 @@ import Select from '../Select';
 import Spacer from '../Spacer';
 import ShoeSidebar from '../ShoeSidebar';
 import ShoeGrid from '../ShoeGrid';
+import {useMediaQuery} from '../../hooks/useMediaQuery';
+import {  QUERIES } from '../../constants';
 
 const ShoeIndex = ({ sortId, setSortId }) => {
+  const isTablet = useMediaQuery(QUERIES.tabletAndDown);
+  const breadCrumbs = (<Breadcrumbs>
+    <Breadcrumbs.Crumb href="/">Home</Breadcrumbs.Crumb>
+    <Breadcrumbs.Crumb href="/sale">Sale</Breadcrumbs.Crumb>
+    <Breadcrumbs.Crumb href="/sale/shoes">
+      Shoes
+    </Breadcrumbs.Crumb>
+  </Breadcrumbs>);
   return (
     <Wrapper>
       <MainColumn>
+        {isTablet && breadCrumbs}
         <Header>
           <Title>Running</Title>
-          <Select
-            label="Sort"
-            value={sortId}
-            onChange={(ev) => setSortId(ev.target.value)}
-          >
-            <option value="newest">Newest Releases</option>
-            <option value="price">Price</option>
-          </Select>
+          {!isTablet && (
+            <Select
+              label="Sort"
+              value={sortId}
+              onChange={(ev) => setSortId(ev.target.value)}
+            >
+              <option value="newest">Newest Releases</option>
+              <option value="price">Price</option>
+            </Select>
+          )}
         </Header>
         <Spacer size={32} />
         <ShoeGrid />
       </MainColumn>
-      <LeftColumn>
-        <Breadcrumbs>
-          <Breadcrumbs.Crumb href="/">Home</Breadcrumbs.Crumb>
-          <Breadcrumbs.Crumb href="/sale">Sale</Breadcrumbs.Crumb>
-          <Breadcrumbs.Crumb href="/sale/shoes">
-            Shoes
-          </Breadcrumbs.Crumb>
-        </Breadcrumbs>
-        <Spacer size={42} />
-        <ShoeSidebar />
-      </LeftColumn>
+      {!isTablet && (
+        <LeftColumn>
+          {breadCrumbs}
+          <Spacer size={42} />
+          <ShoeSidebar />
+        </LeftColumn>
+      )}
     </Wrapper>
   );
 };

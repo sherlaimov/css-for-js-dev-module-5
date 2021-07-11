@@ -1,13 +1,17 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { COLORS } from '../../constants';
-
+import { COLORS, QUERIES } from '../../constants';
+import {useMediaQuery} from '../../hooks/useMediaQuery';
 import SearchInput from '../SearchInput';
 import UnstyledButton from '../UnstyledButton';
 import Icon from '../Icon';
 
 const SuperHeader = () => {
+  const isTablet = useMediaQuery(QUERIES.tabletAndDown);
+  if (isTablet) {
+    return <DecorativeWrapper />
+  }
   return (
     <Wrapper>
       <MarketingMessage>
@@ -21,6 +25,11 @@ const SuperHeader = () => {
     </Wrapper>
   );
 };
+
+const DecorativeWrapper = styled.div`
+  height: 4px;
+  background-color: ${COLORS.gray[900]};
+`
 
 const Wrapper = styled.div`
   display: flex;
